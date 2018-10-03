@@ -6,12 +6,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     signingConfigs {
-        release {
-            keyAlias 'mobidev-rnd'
-            keyPassword '#mobidev2018.'
-            storeFile file('../android-release.jks')
-            storePassword '#mobidev2018.'
-        }
+        release
     }
     compileSdkVersion 28
     defaultConfig {
@@ -31,6 +26,25 @@ android {
             zipAlignEnabled true
         }
     }
+
+    def isRunningOnTravis = System.getenv("CI") == "true"
+
+    if (isRunningOnTravis) {
+        // configure keystore
+        signingConfigs.release.storeFile = file("../android-release.jks.enc")
+        signingConfigs.release.storePassword = System.getenv("keystore_password")
+        signingConfigs.release.keyAlias = System.getenv("keystore_alias")
+        signingConfigs.release.keyPassword = System.getenv("keystore_alias_password")
+    } else {
+        def keystorePropertiesFile = rootProject.file("keystore.properties")
+        def keystoreProperties = new Properties()
+        keystoreProperties.load(new FileInputStream((keystorePropertiesFile)))
+        signingConfigs.release.storeFile = file(keystoreProperties['storeFile'])
+        signingConfigs.release.storePassword = keystoreProperties['storePassword']
+        signingConfigs.release.keyAlias = keystoreProperties['keyAlias']
+        signingConfigs.release.keyPassword = keystoreProperties['keyPassword']
+    }
+
     buildToolsVersion '28.0.2'
     productFlavors {
     }
@@ -61,6 +75,4 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
     androidTestImplementation 'androidx.test:rules:1.1.0-alpha4'
-//    androidTestImplementation 'org.hamcrest:hamcrest-all:1.3'
-    implementation 'com.synnapps:carouselview:0.1.5'
 }

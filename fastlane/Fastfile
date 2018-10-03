@@ -24,15 +24,51 @@ platform :android do
   desc "Submit a new Beta Build to Crashlytics Beta"
   lane :beta do
     gradle(task: "clean assembleRelease")
-    crashlytics
-  
-    # sh "your_script.sh"
-    # You can also use other beta testing services here
+    supply(
+      track: "beta",
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      apk_paths: lane_context[SharedValues::GRADLE_ALL_APK_OUTPUT_PATHS]
+    )
+  end
+
+  lane :alpha do
+    gradle(task: "clean assembleRelease")
+    supply(
+        track: "alpha",
+        skip_upload_metadata: true,
+        skip_upload_images: true,
+        skip_upload_screenshots: true,
+        apk_paths: lane_context[SharedValues::GRADLE_ALL_APK_OUTPUT_PATHS]
+    )
+  end
+
+  lane :internal do
+    increment_version_code(
+            gradle_file_path: "app/build.gradle",
+            #ext_constant_name: "test"
+            app_folder_name:"app"
+    )
+    gradle(task: "clean assembleRelease")
+    supply(
+         track: "internal",
+         skip_upload_metadata: true,
+         skip_upload_images: true,
+         skip_upload_screenshots: true,
+         apk_paths: lane_context[SharedValues::GRADLE_ALL_APK_OUTPUT_PATHS]
+    )
   end
 
   desc "Deploy a new version to the Google Play"
   lane :deploy do
     gradle(task: "clean assembleRelease")
-    upload_to_play_store
+    supply(
+         track: "production",
+         skip_upload_metadata: true,
+         skip_upload_images: true,
+         skip_upload_screenshots: true,
+         apk_paths: lane_context[SharedValues::GRADLE_ALL_APK_OUTPUT_PATHS]
+    )
   end
 end

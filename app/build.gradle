@@ -5,22 +5,50 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
+    signingConfigs {
+        release {
+            keyAlias 'mobidev-rnd'
+            keyPassword '#mobidev2018.'
+            storeFile file('../android-release.jks')
+            storePassword '#mobidev2018.'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "mobi.devs.codebuildshipke"
         minSdkVersion 17
         targetSdkVersion 28
-        versionCode 1
+        versionCode 4
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.release
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            zipAlignEnabled true
         }
     }
     buildToolsVersion '28.0.2'
+    productFlavors {
+    }
+    splits {
+        abi {
+            enable gradle.startParameter.taskNames.contains(":app:assembleRelease") || gradle.startParameter.taskNames.contains("assembleRelease")
+            //enable gradle.startParameter.taskNames.contains("Release")
+            reset()
+            include 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'
+            //include 'armeabi-v7a', 'arm64-v8a'
+            universalApk true
+        }
+
+        //density {
+        //    enable true
+        //    exclude 'xxxhdpi', 'tvdpi', 'ldpi', 'hdpi'
+        //}
+    }
 }
 
 dependencies {

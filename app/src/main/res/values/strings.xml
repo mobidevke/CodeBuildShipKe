@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">CodeBuildShipKe</string>
+    <string name="app_name">CodeBuild Ship</string>
+    <string name="brand_image">Brand Image</string>
 </resources>

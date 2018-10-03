@@ -37,7 +37,7 @@ jobs:
             -in android-release.jks.enc -out android-release.jks -d
         - ls
       before_script: chmod +x gradlew
-      script: "./gradlew --debug assembleRelease"
+      script: "./gradlew --info assembleRelease"
 #before_script:
 #- chmod +x gradlew
 #script:

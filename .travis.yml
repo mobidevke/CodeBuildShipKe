@@ -1,4 +1,14 @@
 language: android
+android:
+  components:
+    - tools
+    - platform-tools
+    - tools
+    - build-tools-28.0.2
+    - android-28
+    - android-24
+    - sys-img-armeabi-v7a-android-24
+
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
@@ -7,20 +17,6 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
     - $HOME/.android/build-cache
-android:
-  components:
-    - tools
-    - platform-tools
-    - tools
-    - build-tools-28.0.2
-    - android-28
-    - extra-android-m2repository
-    - extra-google-m2repository
-    - extra-android-support
-    - extra-google-google_play_services
-    - sys-img-armeabi-v7a-android-24
-
-
 
 before_script:
   - chmod +x gradlew

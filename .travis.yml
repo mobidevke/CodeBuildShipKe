@@ -12,16 +12,19 @@ cache:
 
 
 android:
+  licenses:
+    - 'android-sdk-preview-license-.+'
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
   components:
+    - tools
+    - tools
     - platform-tools
     - build-tools-28.0.2
     - android-28
 #    - android-24
 #    - sys-img-armeabi-v7a-android-24
     - extra
-
-before_install:
-  - yes | sdkmanager "platforms;android-28"
 
 before_script:
   - chmod +x gradlew
@@ -31,5 +34,5 @@ before_script:
 #  - adb shell input keyevent 82 &
 
 script:
-  - ./gradlew clean assembleDebug assembleRelease testDebug
+  - ./gradlew clean testDebug
 #  - ./gradlew connectedAndroidTest

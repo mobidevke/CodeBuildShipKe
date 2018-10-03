@@ -1,0 +1,74 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+  desc "Submit a new Beta Build to Crashlytics Beta"
+  lane :beta do
+    gradle(task: "clean assembleRelease")
+    supply(
+      track: "beta",
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      apk_paths: lane_context[SharedValues::GRADLE_ALL_APK_OUTPUT_PATHS]
+    )
+  end
+
+  lane :alpha do
+    gradle(task: "clean assembleRelease")
+    supply(
+        track: "alpha",
+        skip_upload_metadata: true,
+        skip_upload_images: true,
+        skip_upload_screenshots: true,
+        apk_paths: lane_context[SharedValues::GRADLE_ALL_APK_OUTPUT_PATHS]
+    )
+  end
+
+  lane :internal do
+    increment_version_code(
+            gradle_file_path: "app/build.gradle",
+            #ext_constant_name: "test"
+            app_folder_name:"app"
+    )
+    gradle(task: "clean assembleRelease")
+    supply(
+         track: "internal",
+         skip_upload_metadata: true,
+         skip_upload_images: true,
+         skip_upload_screenshots: true,
+         apk_paths: lane_context[SharedValues::GRADLE_ALL_APK_OUTPUT_PATHS]
+    )
+  end
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy do
+    gradle(task: "clean assembleRelease")
+    supply(
+         track: "production",
+         skip_upload_metadata: true,
+         skip_upload_images: true,
+         skip_upload_screenshots: true,
+         apk_paths: lane_context[SharedValues::GRADLE_ALL_APK_OUTPUT_PATHS]
+    )
+  end
+end

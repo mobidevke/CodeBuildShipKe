@@ -22,14 +22,14 @@ android:
   - extra
 
 stages:
-#  - test
+  - test
   - build
 
 jobs:
   include:
-#    - stage: test
-#      before_script: chmod +x gradlew
-#      script: "./gradlew clean testDebug"
+    - stage: test
+      before_script: chmod +x gradlew
+      script: "./gradlew clean testDebug"
 
     - stage: build
       before_install:
@@ -37,7 +37,7 @@ jobs:
             -in android-release.jks.enc -out android-release.jks -d
         - ls
       before_script: chmod +x gradlew
-      script: "./gradlew --info assembleRelease"
+      script: "./gradlew assembleRelease"
 #before_script:
 #- chmod +x gradlew
 #script:

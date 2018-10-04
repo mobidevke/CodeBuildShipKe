@@ -11,3 +11,4 @@ libs/
 *.zip
 keystore.properties
 mobidev-rnd-service-account.json
+secrets.tar

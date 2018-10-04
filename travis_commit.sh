@@ -22,10 +22,10 @@ function travis-branch-commit() {
         return 1
     fi
 
-    if ! git add --all .; then
-        err "failed to add modified files to git index"
-        return 1
-    fi
+#    if ! git add --all .; then
+#        err "failed to add modified files to git index"
+#        return 1
+#    fi
     # make Travis CI skip this build
     if ! git commit -m "Travis CI update [ci skip]"; then
         err "failed to commit updates"
@@ -41,10 +41,10 @@ function travis-branch-commit() {
     if [[ $GITHUB_TOKEN ]]; then
         remote=https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG
     fi
-    if [[ $TRAVIS_BRANCH != master ]]; then
-        msg "not pushing updates to branch $TRAVIS_BRANCH"
-        return 0
-    fi
+#    if [[ $TRAVIS_BRANCH != master ]]; then
+#        msg "not pushing updates to branch $TRAVIS_BRANCH"
+#        return 0
+#    fi
     if ! git push --quiet --follow-tags "$remote" "$TRAVIS_BRANCH" > /dev/null 2>&1; then
         err "failed to push git changes"
         return 1

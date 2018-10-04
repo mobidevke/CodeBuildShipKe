@@ -22,10 +22,10 @@ function travis-branch-commit() {
         return 1
     fi
 
-#    if ! git add --all .; then
-#        err "failed to add modified files to git index"
-#        return 1
-#    fi
+    if ! git add app/build.gradle; then
+        err "failed to add modified files to git index"
+        return 1
+    fi
     # make Travis CI skip this build
     if ! git commit -m "Travis CI update [ci skip]"; then
         err "failed to commit updates"

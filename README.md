@@ -25,7 +25,7 @@ Why? Who likes surprises??
 
 Both instrumented and unit tests should present to ensure code quality
 
-Add test coverage if you want (jacoco)
+Add test coverage if you want [(jacoco)](https://gist.github.com/nathanmkaya/a3cbff9b8ace48c4774fb6c654414f33)
 
 
 ### 3. Code quality checks

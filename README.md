@@ -29,9 +29,10 @@ Add test coverage if you want (jacoco)
 
 
 ### 3. Code quality checks
-- Findbugs
-- AndroidLint
-- Checkstyle
+- [Findbugs](https://gist.github.com/anonymous/3d0f7ef81cb1f10888716107b15bd146#file-findbugs-gradle)
+- [AndroidLint](https://gist.github.com/anonymous/91a37be32ef97c7784fece6ffcf818a3#file-lint-gradle)
+- [Checkstyle](https://gist.github.com/anonymous/f341928f752f816877d3870169b38c91#file-checkstyle-gradle)
+- [PMD](https://gist.github.com/ianrumac/35fb89dd60e7a4c729f009b8412bf691#file-pmd-gradle)
 - Ktlint (Kotlin)
 - Detekt (Kotlin)
 

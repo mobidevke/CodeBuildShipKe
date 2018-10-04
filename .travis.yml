@@ -20,10 +20,29 @@ android:
   - build-tools-28.0.2
   - android-28
   - extra
-before_script:
-- chmod +x gradlew
-script:
-- "./gradlew clean testDebug"
-before_install:
-- openssl aes-256-cbc -K $encrypted_5ce3e3b113ec_key -iv $encrypted_5ce3e3b113ec_iv
-  -in android-release.jks.enc -out android-release.jks -d
+
+stages:
+  - test
+  - name: build
+    if: branch = master
+
+jobs:
+  include:
+    - stage: test
+      before_script: chmod +x gradlew
+      script: "./gradlew clean testDebug"
+
+    - stage: build
+      before_install:
+        - openssl aes-256-cbc -K $encrypted_5ce3e3b113ec_key -iv $encrypted_5ce3e3b113ec_iv
+            -in android-release.jks.enc -out android-release.jks -d
+        -
+      before_script: chmod +x gradlew
+      script: "./gradlew assembleRelease"
+#before_script:
+#- chmod +x gradlew
+#script:
+#- "./gradlew clean testDebug"
+#before_install:
+#- openssl aes-256-cbc -K $encrypted_5ce3e3b113ec_key -iv $encrypted_5ce3e3b113ec_iv
+#  -in android-release.jks.enc -out android-release.jks -d

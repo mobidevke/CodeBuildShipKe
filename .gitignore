@@ -8,3 +8,6 @@ local.properties
 .externalNativeBuild
 libs/
 *.jks
+*.zip
+keystore.properties
+mobidev-rnd-service-account.json

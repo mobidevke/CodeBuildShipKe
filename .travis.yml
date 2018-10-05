@@ -37,16 +37,19 @@ before_script:
   - chmod +x travis_commit.sh
 
 stages:
-- name: build
-  if: branch = master
-- name: alpha
-  if: branch = alpha
-- name: beta
-  if: branch = beta
-- name: internal
-  if: branch = internal
+  - test
+  - name: build
+    if: branch = master
+  - name: alpha
+    if: branch = alpha
+  - name: beta
+    if: branch = beta
+  - name: internal
+    if: branch = internal
 jobs:
   include:
+  - stage: test
+    script: ./gradlew testDebug
   - stage: build
     script: fastlane production
   - stage: alpha

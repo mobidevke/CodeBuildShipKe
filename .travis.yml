@@ -20,7 +20,6 @@ android:
     - build-tools-28.0.2
     - android-28
     - android-24
-    - sys-img-x86-android-24
   licenses:
     - 'android-sdk-preview-license-52d11cd2'
     - 'android-sdk-license-.+'
@@ -44,11 +43,17 @@ stages:
     if: branch = alpha
   - name: beta
     if: branch = beta
-  - name: internal
-    if: branch = internal
+#  - name: internal
+#    if: branch = internal
 jobs:
   include:
   - stage: test
+    before_script:
+    - android-update-sdk --components=sys-img-armeabi-v7a-android-24 --accept-licenses='android-sdk-license-[0-9a-f]{8}'
+    - echo no | android create avd --force -n test -t 24 --abi armeabi-v7a
+    - emulator -avd test -no-audio -no-window
+    - android-wait-for-emulator
+    - adb shell input keyevent 82 &
     script: ./gradlew testDebug
   - stage: build
     script: fastlane production
@@ -56,7 +61,7 @@ jobs:
     script: fastlane alpha
   - stage: beta
     script: fastlane beta
-  - stage: internal
-    script: bundle exec fastlane internal
-    after_script: bash travis_commit.sh travis-branch-commit
+#  - stage: internal
+#    script: bundle exec fastlane internal
+#    after_script: bash travis_commit.sh travis-branch-commit
 

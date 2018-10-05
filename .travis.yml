@@ -31,8 +31,6 @@ install:
     -in secrets.tar.enc -out secrets.tar -d
   - tar xvf secrets.tar
   - bundle install
-env:
-  - ANDROID_HOME=$HOME/android-sdk
 
 before_script:
   - chmod +x gradlew

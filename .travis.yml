@@ -25,19 +25,13 @@ install:
     -in secrets.tar.enc -out secrets.tar -d
   - tar xvf secrets.tar
   - bundle install
-#android:
-#  licenses:
-#  - android-sdk-preview-license-.+
-#  - android-sdk-license-.+
-#  - google-gdk-license-.+
-#  components:
-#  - tools
-#  - tools
-#  - platform-tools
-#  - build-tools-28.0.2
-#  - android-28
-#  - extra
-#  - sys-img-armeabi-v7a-android-26
+env:
+  - ANDROID_HOME=$HOME/android-sdk
+
+before_script:
+  - chmod +x gradlew
+  - chmod +x travis_commit.sh
+
 stages:
 - name: build
   if: branch = master
@@ -50,43 +44,12 @@ stages:
 jobs:
   include:
   - stage: build
-    before_install:
-    - sudo apt-get install -y tar
-    - openssl aes-256-cbc -K $encrypted_5ce3e3b113ec_key -iv $encrypted_5ce3e3b113ec_iv
-      -in secrets.tar.enc -out secrets.tar -d
-    - tar xvf secrets.tar
-    - ls
-    - bundle install
-    env:
-    - ANDROID_HOME=$HOME/android-sdk
-    before_script: chmod +x gradlew
     script: fastlane production
   - stage: alpha
-    before_install:
-    - sudo apt-get install -y tar
-    - openssl aes-256-cbc -K $encrypted_5ce3e3b113ec_key -iv $encrypted_5ce3e3b113ec_iv
-      -in secrets.tar.enc -out secrets.tar -d
-    - tar xvf secrets.tar
-    - ls
-    - bundle install
-    before_script: chmod +x gradlew
     script: fastlane alpha
   - stage: beta
-    before_install:
-    - sudo apt-get install -y tar
-    - openssl aes-256-cbc -K $encrypted_5ce3e3b113ec_key -iv $encrypted_5ce3e3b113ec_iv
-      -in secrets.tar.enc -out secrets.tar -d
-    - tar xvf secrets.tar
-    - ls
-    - bundle install
-    env:
-    - ANDROID_HOME=$HOME/android-sdk
-    before_script: chmod +x gradlew
     script: fastlane beta
   - stage: internal
-    before_script:
-    - chmod +x gradlew
-    - chmod +x travis_commit.sh
     script: bundle exec fastlane internal
     after_script: bash travis_commit.sh travis-branch-commit
 

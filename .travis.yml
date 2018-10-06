@@ -61,7 +61,7 @@ jobs:
     - android-wait-for-emulator
     - adb shell input keyevent 82 &
     - adb wait-for-device get-serialno
-    script: ./gradlew testDebug
+    script: ./gradlew jacocoTestReport
   - stage: build
     script: fastlane production
   - stage: alpha

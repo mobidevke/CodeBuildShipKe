@@ -29,6 +29,8 @@ android:
   licenses:
     - ".+"
 install:
+  - echo $encrypted_5ce3e3b113ec_key
+  - echo $encrypted_5ce3e3b113ec_iv
   - sudo apt-get install -y tar
   - openssl aes-256-cbc -K $encrypted_5ce3e3b113ec_key -iv $encrypted_5ce3e3b113ec_iv
     -in secrets.tar.enc -out secrets.tar -d

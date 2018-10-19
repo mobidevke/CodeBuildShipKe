@@ -47,8 +47,8 @@ stages:
     if: branch = alpha
   - name: beta
     if: branch = beta
-#  - name: internal
-#    if: branch = internal
+  - name: internal
+    if: branch = internal
 jobs:
   include:
   - stage: test
@@ -63,12 +63,12 @@ jobs:
     - adb wait-for-device get-serialno
     script: ./gradlew jacocoTestReport
   - stage: build
-    script: fastlane production
+    script: bundle exec fastlane production
   - stage: alpha
-    script: fastlane alpha
+    script: bundle exec fastlane alpha
   - stage: beta
-    script: fastlane beta
-#  - stage: internal
-#    script: bundle exec fastlane internal
-#    after_script: bash travis_commit.sh travis-branch-commit
+    script: bundle exec fastlane beta
+  - stage: internal
+    script: bundle exec fastlane internal
+    after_script: bash travis_commit.sh travis-branch-commit
 
